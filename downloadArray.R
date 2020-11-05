@@ -14,6 +14,7 @@ samples <- tt$x
 
 tt <- split(samples, ceiling(seq_along(samples)/100)) #split into chunks to avoid time-out
 
+h = new_handle(dirlistonly=TRUE)
 
 for (i in 1:length(tt)) {
 
