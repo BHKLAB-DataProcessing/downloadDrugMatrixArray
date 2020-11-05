@@ -14,15 +14,13 @@ samples <- tt$x
 
 tt <- split(samples, ceiling(seq_along(samples)/100)) #split into chunks to avoid time-out
 
-h = new_handle(dirlistonly=TRUE)
-
 for (i in 1:length(tt)) {
 
 print(i)
 samples <- tt[[i]]
 
 lapply(samples, function(filename){
-  curl_download(paste(dir1, filename, sep = ""), destfile = paste0(file.path(my.path, "raw"),"/",filename), handle = h)
+  curl_download(paste(dir1, filename, sep = ""), destfile = paste0(file.path(my.path, "raw"),"/",filename))
 })
 
 }
