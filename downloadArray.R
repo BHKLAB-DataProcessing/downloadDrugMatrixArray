@@ -8,15 +8,20 @@ dir1 <- "ftp://ftp.ebi.ac.uk/pub/databases/microarray/data/dixa/DrugMatrix/archi
 
 dir.create(file.path(my.path, "raw"), showWarnings=FALSE, recursive=TRUE)
 
-h = new_handle(dirlistonly=TRUE)
-con = curl(dir1, "r", h)
-tbl = read.table(con, stringsAsFactors=TRUE, fill=TRUE)
-close(con)
-head(tbl)
+tt <- read.csv('https://orcestradata.blob.core.windows.net/toxico/DrugMatrix_array_samples.txt') #CEL files to download (only require 939 for our TSet)
 
-urls <- paste0(dir1, tbl$V1)
-fls = basename(urls)
+samples <- tt$x
 
-lapply(fls, function(filename){
+tt <- split(samples, ceiling(seq_along(samples)/100)) #split into chunks to avoid time-out
+
+
+for (i in 1:length(tt)) {
+
+print(i)
+samples <- tt[[i]]
+
+lapply(samples, function(filename){
   curl_download(paste(dir1, filename, sep = ""), destfile = paste0(file.path(my.path, "raw"),"/",filename), handle = h)
 })
+
+}
