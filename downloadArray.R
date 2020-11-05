@@ -16,7 +16,6 @@ head(tbl)
 
 urls <- paste0(dir1, tbl$V1)
 fls = basename(urls)
-fls <- fls[1:5]
 
 lapply(fls, function(filename){
   curl_download(paste(dir1, filename, sep = ""), destfile = paste0(file.path(my.path, "raw"),"/",filename), handle = h)
